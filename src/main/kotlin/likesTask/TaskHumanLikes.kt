@@ -1,3 +1,5 @@
+package likesTask
+
 const val NAME_LIKES_VERSION = "человеку"
 const val NAME_LIKES_VERSION_TWO = "людям"
 

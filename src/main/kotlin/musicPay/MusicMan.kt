@@ -1,3 +1,5 @@
+package musicPay
+
 const val START_ONE_DISCOUNT = 1_001
 const val ONE_DISCOUNT = 100
 const val START_TWO_DISCOUNT = 10_001
