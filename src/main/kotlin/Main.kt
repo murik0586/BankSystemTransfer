@@ -10,18 +10,19 @@ const val MAX_TRANSFER_CARD_MONTH = 600_000 //Максимальный пере�
 //ОШИБКИ
 const val EXCEEDING_LIMIT_DAY = -1.0
 const val EXCEEDING_LIMIT_MONTH = -2.0
+const val INVALID_CARD_TYPE = -3.0
 
 const val CARD_TYPE_MASTERCARD = "MasterCard"
 const val CARD_TYPE_VISA = "Visa"
 const val CARD_TYPE_MIR = "Мир"
 
 fun main() {
-    val cardType = CARD_TYPE_MASTERCARD//отвечает за тип карты
-    val amount = 100000//Сумма
+    val amount = 150_001//Сумма
 
-    when (val result: Double = calculationCommission(cardType, amount)) {
+    when (val result: Double = calculationCommission(CARD_TYPE_MIR, amount)) {
         EXCEEDING_LIMIT_DAY -> println("Превышен лимит перевода за день")
         EXCEEDING_LIMIT_MONTH -> println("Превышен лимит перевода за месяц")
+        INVALID_CARD_TYPE -> println("Неверный тип карты")
         else -> {
             println("Сумма которую вы хотите перевести (вместе с комиссией) ${amount + result}")
             println("Из них комиссии: $result рублей")
@@ -35,7 +36,7 @@ fun calculationCommission(cardType: String, amount: Int, transferHistoryMonth: I
         CARD_TYPE_MASTERCARD -> calculateMasterCardCommission(totalAmount, amount)
         CARD_TYPE_VISA -> calculateVisaCommission(totalAmount, amount)
         CARD_TYPE_MIR -> calculateMirCommission(totalAmount)
-        else -> 0.0
+        else -> INVALID_CARD_TYPE
 
     }
 }

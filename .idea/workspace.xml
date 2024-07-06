@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14444350-c0d2-4c7b-aba9-7c7cbeaac454" name="Changes" comment="BankTransferTask2(KT-3) &#10;Refactoring">
+    <list default="true" id="14444350-c0d2-4c7b-aba9-7c7cbeaac454" name="Changes" comment="BankTransferTask2(KT-3) &#10;Refactoring 2">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
     </list>
@@ -131,7 +131,15 @@
       <option name="project" value="LOCAL" />
       <updated>1720286497389</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="BankTransferTask2(KT-3) &#10;Refactoring 2">
+      <option name="closed" value="true" />
+      <created>1720289206871</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1720289206871</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -149,6 +157,7 @@
     <MESSAGE value="BankTransferTask1" />
     <MESSAGE value="BankTransferTask2(KT-3)" />
     <MESSAGE value="BankTransferTask2(KT-3) &#10;Refactoring" />
-    <option name="LAST_COMMIT_MESSAGE" value="BankTransferTask2(KT-3) &#10;Refactoring" />
+    <MESSAGE value="BankTransferTask2(KT-3) &#10;Refactoring 2" />
+    <option name="LAST_COMMIT_MESSAGE" value="BankTransferTask2(KT-3) &#10;Refactoring 2" />
   </component>
 </project>
