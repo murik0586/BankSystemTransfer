@@ -1,81 +1,66 @@
 import kotlin.math.max
 
-const val MIN_COMMISSION_VISA = 35 //решил перевести в константы, все таки эти значения неизменяемые.
+const val MIN_COMMISSION_VISA = 35.0 //решил перевести в константы, все таки эти значения неизменяемые.
 const val COMMISSION_VISA: Double = 0.0075
 
 const val LIMIT_NO_COMMISSION_MONTH_MASTERCARD = 75_000//ЛИМИТ до какой суммы нет комиссии для мастерКард
 const val MAX_TRANSFER_CARD_DAY = 150_000 //Максимальный перевод(вместе с историей переводов) в день
 const val MAX_TRANSFER_CARD_MONTH = 600_000 //Максимальный перевод вместе с историей переводов в месяц
+
+//ОШИБКИ
+const val EXCEEDING_LIMIT_DAY = -1.0
+const val EXCEEDING_LIMIT_MONTH = -2.0
+
+const val CARD_TYPE_MASTERCARD = "MasterCard"
+const val CARD_TYPE_VISA = "Visa"
+const val CARD_TYPE_MIR = "Мир"
+
 fun main() {
-    val cardType = "Мир"//отвечает за тип карты
+    val cardType = CARD_TYPE_MASTERCARD//отвечает за тип карты
     val amount = 100000//Сумма
 
-    val result: Double = calculationCommission(cardType, amount)
-
-    println("Сумма которую вы хотите перевести (вместе с комиссией) ${amount + result}")
-    println("Из них комиссии: $result рублей")
-
+    when (val result: Double = calculationCommission(cardType, amount)) {
+        EXCEEDING_LIMIT_DAY -> println("Превышен лимит перевода за день")
+        EXCEEDING_LIMIT_MONTH -> println("Превышен лимит перевода за месяц")
+        else -> {
+            println("Сумма которую вы хотите перевести (вместе с комиссией) ${amount + result}")
+            println("Из них комиссии: $result рублей")
+        }
+    }
 }
 
 fun calculationCommission(cardType: String, amount: Int, transferHistoryMonth: Int = 10_000): Double {
-    val finalAmount = amount + transferHistoryMonth //Делаем так только для того, чтобы историю считать было легче
+    val totalAmount = amount + transferHistoryMonth //Делаем так только для того, чтобы историю считать было легче
     return when (cardType) {
-        "MasterCard" -> {
-            when (finalAmount) {
-                in (LIMIT_NO_COMMISSION_MONTH_MASTERCARD + 1)..<MAX_TRANSFER_CARD_DAY -> { //если сумма больше лимита, но меньше перевода макс за день! вычитаем лимит
-                    return ((finalAmount - LIMIT_NO_COMMISSION_MONTH_MASTERCARD) * 0.006) + 20
-                }
-
-                in (MAX_TRANSFER_CARD_DAY + 1)..<MAX_TRANSFER_CARD_MONTH -> {
-                    println("Превышен лимит перевода за день")
-                    0.0//комиссии нет, если лимит превышен, значит комиссия 0.0
-                }
-
-                else -> {
-                    println("Превышен лимит перевода за месяц")
-                    0.0
-                }
-            }
-        }
-
-        "Visa" -> {
-
-            when {
-                finalAmount in (MAX_TRANSFER_CARD_DAY + 1)..<MAX_TRANSFER_CARD_MONTH -> {
-                    println("Превышен лимит перевода за день")
-                    0.0
-                }
-
-                finalAmount > MAX_TRANSFER_CARD_MONTH -> {
-                    println("Превышен лимит перевода за месяц")
-                    0.0
-                }
-
-
-                else -> {
-                    val commission = amount * COMMISSION_VISA
-                    return max(MIN_COMMISSION_VISA.toDouble(), commission)
-                }
-            }
-        }
-
-        "Мир" -> {
-            when {
-                finalAmount > MAX_TRANSFER_CARD_DAY -> {
-                    if (finalAmount in (MAX_TRANSFER_CARD_DAY + 1)..<MAX_TRANSFER_CARD_MONTH) {
-                        println("Превышен лимит перевода за день")
-                        return 0.0
-                    } else println("Превышен лимит перевода за месяц")
-                    0.0
-                }
-
-                else -> 0.0
-
-            }
-        }
-
+        CARD_TYPE_MASTERCARD -> calculateMasterCardCommission(totalAmount, amount)
+        CARD_TYPE_VISA -> calculateVisaCommission(totalAmount, amount)
+        CARD_TYPE_MIR -> calculateMirCommission(totalAmount)
         else -> 0.0
 
     }
+}
 
+fun calculateMirCommission(totalAmount: Int): Double {
+    return when {
+        totalAmount > MAX_TRANSFER_CARD_MONTH -> EXCEEDING_LIMIT_MONTH
+        totalAmount > MAX_TRANSFER_CARD_DAY -> EXCEEDING_LIMIT_DAY
+        else -> 0.0
+    }
+}
+
+fun calculateVisaCommission(totalAmount: Int, amount: Int): Double {
+    return when {
+        totalAmount > MAX_TRANSFER_CARD_MONTH -> EXCEEDING_LIMIT_MONTH
+        totalAmount > MAX_TRANSFER_CARD_DAY -> EXCEEDING_LIMIT_DAY
+        else -> max(MIN_COMMISSION_VISA, amount * COMMISSION_VISA)
+    }
+}
+
+fun calculateMasterCardCommission(totalAmount: Int, amount: Int): Double {
+    return when {
+        totalAmount > MAX_TRANSFER_CARD_MONTH -> EXCEEDING_LIMIT_MONTH
+        totalAmount > MAX_TRANSFER_CARD_DAY -> EXCEEDING_LIMIT_DAY
+        totalAmount > LIMIT_NO_COMMISSION_MONTH_MASTERCARD -> ((amount - LIMIT_NO_COMMISSION_MONTH_MASTERCARD) * 0.006) + 20
+        else -> 0.0
+    }
 }
