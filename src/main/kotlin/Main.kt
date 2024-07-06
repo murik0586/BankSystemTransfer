@@ -1,12 +1,14 @@
+import kotlin.math.max
+
 const val MIN_COMMISSION_VISA = 35 //решил перевести в константы, все таки эти значения неизменяемые.
-const val COMMISSION_VISA = 0.0075
+const val COMMISSION_VISA: Double = 0.0075
 
 const val LIMIT_NO_COMMISSION_MONTH_MASTERCARD = 75_000//ЛИМИТ до какой суммы нет комиссии для мастерКард
 const val MAX_TRANSFER_CARD_DAY = 150_000 //Максимальный перевод(вместе с историей переводов) в день
 const val MAX_TRANSFER_CARD_MONTH = 600_000 //Максимальный перевод вместе с историей переводов в месяц
 fun main() {
-    val cardType = "Visa"//отвечает за тип карты
-    val amount = 140_000//Сумма
+    val cardType = "Мир"//отвечает за тип карты
+    val amount = 100000//Сумма
 
     val result: Double = calculationCommission(cardType, amount)
 
@@ -52,11 +54,7 @@ fun calculationCommission(cardType: String, amount: Int, transferHistoryMonth: I
 
                 else -> {
                     val commission = amount * COMMISSION_VISA
-                    if (commission >= MIN_COMMISSION_VISA) {
-                        return commission
-                    } else {
-                        return MIN_COMMISSION_VISA.toDouble()
-                    }
+                    return max(MIN_COMMISSION_VISA.toDouble(), commission)
                 }
             }
         }
