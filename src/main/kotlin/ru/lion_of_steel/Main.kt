@@ -1,3 +1,5 @@
+package ru.lion_of_steel
+
 import kotlin.math.max
 
 const val MIN_COMMISSION_VISA = 35.0 //решил перевести в константы, все таки эти значения неизменяемые.

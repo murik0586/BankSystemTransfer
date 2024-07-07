@@ -1,9 +1,11 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.9.22'
     id 'application'
+    id 'java'
+    id 'jacoco'
 }
 
-group = 'ru.Lion_of_steel'
+group = 'ru.lion_of_steel'
 version = '1.0-SNAPSHOT'
 
 repositories {
@@ -11,11 +13,8 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'org.jetbrains.kotlin:kotlin-test'
-}
-
-test {
-    useJUnitPlatform()
+    testImplementation 'junit:junit:4.13.1'
+    testImplementation 'junit:junit:4.13.1'
 }
 
 compileKotlin {
